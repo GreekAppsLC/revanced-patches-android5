@@ -1,4 +1,4 @@
-# YouTube ReVanced for Android 5
+# GreeceTube for Android 5
 
 Unofficial ReVanced Extended for YouTube 16.40.36. Based on [kitadai31's fork of ReVanced Extended for Android 6/7](https://github.com/kitadai31/revanced-patches-android6-7)
 
@@ -7,18 +7,16 @@ Unofficial ReVanced Extended for YouTube 16.40.36. Based on [kitadai31's fork of
 - Prerequisites:
     - [GmsCore](https://github.com/Revanced/GmsCore/releases/latest) installed on your device
       - [Optimized version by YT-Advanced](https://github.com/YT-Advanced/GmsCore/releases/latest)
-    - [Patches from the Release section](https://github.com/d4n3436/revanced-patches-android5/releases)
+    - [Patches from the Release section](https://github.com/GreekAppsLC/revanced-patches-android5/releases)
     - [YouTube APK](https://www.apkmirror.com/apk/google-inc/youtube/youtube-16-40-36-release/youtube-16-40-36-android-apk-download/)
-    - [revanced-integrations for Android 5](https://github.com/d4n3436/revanced-integrations/releases)
+    - [revanced-integrations for Android 5](https://github.com/GreekAppsLC/revanced-integrations/releases)
     - Zulu OpenJDK 17
-    - [revanced-cli v3.1.1](https://github.com/ReVanced/revanced-cli/releases/tag/v3.1.1)
 
 - Patch with the following command (file names changed for brevity):
 ```
-java -jar revanced-cli.jar patch YouTube_16.40.36.apk -p -o YouTube_ReVanced_16.40.36.apk -b revanced-patches-2.161.5.jar -m revanced-integrations-0.97.2.apk
+java -jar revanced-cli.jar patch YouTube_16.40.36.apk -p -o GreeceTube_16.40.36.apk -b revanced-patches-2.161.5.jar -m revanced-integrations-0.97.2.apk
 ```
 
-- Or use [auto-cli](https://github.com/taku-nm/auto-cli) for automated patching. The prerequisites are downloaded automatically.
 - You can also use the [fork of ReVanced Manager for Android 5-7](https://github.com/kitadai31/revanced-manager-android5-7).
 
 ## 🧩 Patches List
@@ -28,11 +26,9 @@ java -jar revanced-cli.jar patch YouTube_16.40.36.apk -p -o YouTube_ReVanced_16.
 
 | 💊 Patch | 📜 Description | 🏹 Target Version |
 |:--------:|:--------------:|:-----------------:|
+| `add-missing-resources` | Adds the Missing resources for 16.40.36. | 16.40.36 |
 | `check-android-version` | If the device is Android 6.0 or higher, show a warning dialog. | 16.40.36 |
-| `custom-branding-icon-afn-blue` | Changes the YouTube launcher icon (Afn / Blue). | 16.40.36 |
-| `custom-branding-icon-afn-red` | Changes the YouTube launcher icon (Afn / Red). | 16.40.36 |
-| `custom-branding-icon-revancify` | Changes the YouTube launcher icon (Revancify). | 16.40.36 |
-| `custom-branding-name` | Changes the YouTube launcher name to your choice (defaults to ReVanced Extended). | 16.40.36 |
+| `custom-branding-name` | Changes the YouTube launcher name to your choice (defaults to GreeceTube). | 16.40.36 |
 | `custom-video-speed` | Adds more video speed options. | 16.40.36 |
 | `default-video-quality` | Adds ability to set default video quality settings. | 16.40.36 |
 | `default-video-speed` | Adds ability to set default video speed settings. | 16.40.36 |
@@ -48,6 +44,7 @@ java -jar revanced-cli.jar patch YouTube_16.40.36.apk -p -o YouTube_ReVanced_16.
 | `enable-wide-searchbar` | Replaces the search icon with a wide search bar. This will hide the YouTube logo when active. | 16.40.36 |
 | `force-premium-heading` | Forces premium heading on the home screen. | 16.40.36 |
 | `force-vp9-codec` | Forces the VP9 codec for videos. | 16.40.36 |
+| `freeze-layout-updates` | Freezes the layout of 17.02.37. | 16.40.36 |
 | `header-switch` | Add switch to change header. | 16.40.36 |
 | `hide-auto-captions` | Hide captions from being automatically enabled. | 16.40.36 |
 | `hide-auto-player-popup-panels` | Hide automatic popup panels (playlist or live chat) on video player. | 16.40.36 |
@@ -89,6 +86,5 @@ java -jar revanced-cli.jar patch YouTube_16.40.36.apk -p -o YouTube_ReVanced_16.
 | `spoof-client` | Adds options to spoofs the client to allow video playback. | 16.40.36 |
 | `swipe-controls` | Adds volume and brightness swipe controls. | 16.40.36 |
 | `switch-create-notification` | Switches the create button and notification button. | 16.40.36 |
-| `theme` | Applies a custom theme (default: amoled). | 16.40.36 |
 | `translations` | Add Crowdin Translations. | 16.40.36 |
 </details>
