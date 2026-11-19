@@ -581,15 +581,18 @@ Rate Limited (Too many from the same user or IP)"</string>
     <string name="revanced_spoof_app_version_category">Version spoofing</string>
     <string name="revanced_spoof_app_version_title">Spoof app version</string>
     <string name="revanced_spoof_app_version_summary">"Tricks the YouTube client version to enable the new layout or restore old layout.
-Empty = Force spoof to version 17.33.42
+Empty = Force spoof to version 17.02.37
 Please read \"More information about Spoof app version\""</string>
     <string name="revanced_spoof_app_version_info_title">More information about \"Spoof app version\"</string>
     <string name="revanced_spoof_app_version_info_summary">https://github.com/d4n3436/revanced-patches-android5/wiki/Spoof-app-version-information</string>
     <string name="revanced_reboot_first_run">"Restart to load the layout normally when the first run.
 (Please wait 5-10 seconds before restarting to fetch layouts from the server.)"</string>
+    <string name="revanced_freeze_layout_updates_title">Freeze layout updates</string>
+    <string name="revanced_freeze_layout_updates_summary_on">Layout updates are frozen.</string>
+    <string name="revanced_freeze_layout_updates_summary_off">Layout updates are not frozen.</string>
     <string name="revanced_newer_android_warning_body"><![CDATA[
-This YouTube ReVanced is <b>for Android 5</b>, but this device is Android %1$s.<br>
-<b>You may have installed the wrong version of ReVanced.</b><br>
+This GreeceTube is <b>for Android 5</b>, but this device is Android %1$s.<br>
+<b>You may have installed the wrong version of GreeceTube.</b><br>
 <br>
 Tap &quot;OK&quot; to exit the app.<br>
 <br>
