@@ -13,7 +13,7 @@ import app.revanced.shared.patches.theme.bytecode.GeneralThemePatch
 import app.revanced.shared.util.resources.ResourceHelper
 import org.w3c.dom.Element
 
-@Patch
+// @Patch
 @Name("theme")
 @Description("Applies a custom theme (default: amoled).")
 @DependsOn(

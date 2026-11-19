@@ -7,7 +7,7 @@ import app.revanced.patcher.patch.ResourcePatch
 import app.revanced.patcher.patch.annotations.DependsOn
 import app.revanced.patcher.patch.annotations.Patch
 import app.revanced.patches.youtube.misc.layoutupdates.bytecode.patch.FreezeLayoutUpdatesBytecodePatch
-import app.revanced.patches.youtube.utils.settings.resource.patch.SettingsPatch
+import app.revanced.patches.youtube.misc.settings.resource.patch.SettingsPatch
 import app.revanced.shared.annotation.YouTubeCompatibility
 import app.revanced.shared.util.resources.ResourceHelper
 

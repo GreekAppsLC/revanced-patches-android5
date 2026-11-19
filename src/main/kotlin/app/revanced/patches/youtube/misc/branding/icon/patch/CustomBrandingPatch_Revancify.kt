@@ -11,7 +11,7 @@ import app.revanced.shared.annotation.YouTubeCompatibility
 import app.revanced.shared.util.resources.IconHelper
 import app.revanced.shared.util.resources.ResourceHelper
 
-@Patch(false)
+// @Patch(false)
 @Name("custom-branding-icon-revancify")
 @Description("Changes the YouTube launcher icon (Revancify).")
 @DependsOn([SettingsPatch::class])
