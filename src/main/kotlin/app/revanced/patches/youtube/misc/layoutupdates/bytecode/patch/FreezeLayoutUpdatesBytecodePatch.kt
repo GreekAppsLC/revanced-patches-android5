@@ -23,10 +23,10 @@ class FreezeLayoutUpdatesBytecodePatch : BytecodePatch(
             ?: throw ConfigPreferenceFingerprint.exception
 
         val matches = result.scanResult.stringsScanResult!!.matches
-        val coldConfigIndex = matches.index + 3
-        val coldHashIndex = matches.index + 3
-        val hotConfigIndex = matches.index + 2
-        val hotHashIndex = matches.index + 2
+        val coldConfigIndex = matches[0].index + 3
+        val coldHashIndex = matches[1].index + 3
+        val hotConfigIndex = matches[2].index + 2
+        val hotHashIndex = matches[3].index + 2
 
         result.mutableMethod.apply {
             addInstructions(
