@@ -9,7 +9,10 @@ import app.revanced.patches.youtube.misc.layoutupdates.fingerprints.ConfigPrefer
 import app.revanced.shared.annotation.YouTubeCompatibility
 import app.revanced.shared.extensions.exception
 import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 @Name("freeze-layout-updates-bytecode-patch")
 @YouTubeCompatibility
@@ -28,52 +31,46 @@ class FreezeLayoutUpdatesBytecodePatch : BytecodePatch(
         val matches = result.scanResult.stringsScanResult!!.matches
 
         result.mutableMethod.apply {
-            // Find the exact MOVE_RESULT_OBJECT instruction after each getString(...) call
-            fun findMoveResultAfter(startIndex: Int): Pair<Int, Int> {
-                for (i in startIndex until implementation!!.instructions.size) {
+            fun findGetStringResultAfter(constStringIndex: Int): Pair<Int, Int> {
+                val keyReg = (getInstruction(constStringIndex) as OneRegisterInstruction).registerA
+                for (i in (constStringIndex + 1) until implementation!!.instructions.size) {
                     val insn = getInstruction(i)
-                    if (insn.opcode == Opcode.MOVE_RESULT_OBJECT) {
-                        val reg = (insn as OneRegisterInstruction).registerA
-                        return Pair(i + 1, reg)
+                    if (insn.opcode == Opcode.INVOKE_INTERFACE) {
+                        val methodRef = (insn as ReferenceInstruction).reference as MethodReference
+                        val fiveReg = insn as FiveRegisterInstruction
+                        if (methodRef.name == "getString" && fiveReg.registerD == keyReg) {
+                            val moveResult = getInstruction(i + 1)
+                            val resultReg = (moveResult as OneRegisterInstruction).registerA
+                            return Pair(i + 2, resultReg)
+                        }
                     }
                 }
-                throw IllegalStateException("Could not find MOVE_RESULT_OBJECT after index $startIndex")
+                throw IllegalStateException("Could not find SharedPreferences.getString for register v$keyReg")
             }
 
-            val (coldConfigInsert, coldConfigReg) = findMoveResultAfter(matches[0].index)
-            val (coldHashInsert, coldHashReg) = findMoveResultAfter(matches[1].index)
-            val (hotConfigInsert, hotConfigReg) = findMoveResultAfter(matches[2].index)
-            val (hotHashInsert, hotHashReg) = findMoveResultAfter(matches[3].index)
+            // matches[0..3] follow the exact strings order in ConfigPreferenceFingerprint:
+            // [0] cold_config_group, [1] cold_hash_data, [2] hot_config_group, [3] hot_hash_data
+            val (coldConfigInsert, coldConfigReg) = findGetStringResultAfter(matches[0].index)
+            val (coldHashInsert, coldHashReg) = findGetStringResultAfter(matches[1].index)
+            val (hotConfigInsert, hotConfigReg) = findGetStringResultAfter(matches[2].index)
+            val (hotHashInsert, hotHashReg) = findGetStringResultAfter(matches[3].index)
 
-            // Insert from bottom-most index to top-most index so earlier indices stay valid
-            addInstructions(
-                hotHashInsert,
-                """
-                    invoke-static {v$hotHashReg}, $INTEGRATIONS_CLASS_DESCRIPTOR->getHotHashData(Ljava/lang/String;)Ljava/lang/String;
-                    move-result-object v$hotHashReg
-                """
-            )
-            addInstructions(
-                hotConfigInsert,
-                """
-                    invoke-static {v$hotConfigReg}, $INTEGRATIONS_CLASS_DESCRIPTOR->getHotConfigGroup(Ljava/lang/String;)Ljava/lang/String;
-                    move-result-object v$hotConfigReg
-                """
-            )
-            addInstructions(
-                coldHashInsert,
-                """
-                    invoke-static {v$coldHashReg}, $INTEGRATIONS_CLASS_DESCRIPTOR->getColdHashData(Ljava/lang/String;)Ljava/lang/String;
-                    move-result-object v$coldHashReg
-                """
-            )
-            addInstructions(
-                coldConfigInsert,
-                """
-                    invoke-static {v$coldConfigReg}, $INTEGRATIONS_CLASS_DESCRIPTOR->getColdConfigGroup(Ljava/lang/String;)Ljava/lang/String;
-                    move-result-object v$coldConfigReg
-                """
-            )
+            val insertions = listOf(
+                Triple(coldConfigInsert, coldConfigReg, "getColdConfigGroup"),
+                Triple(coldHashInsert, coldHashReg, "getColdHashData"),
+                Triple(hotConfigInsert, hotConfigReg, "getHotConfigGroup"),
+                Triple(hotHashInsert, hotHashReg, "getHotHashData")
+            ).sortedByDescending { it.first }
+
+            for ((insertIndex, reg, methodName) in insertions) {
+                addInstructions(
+                    insertIndex,
+                    """
+                        invoke-static {v$reg}, $INTEGRATIONS_CLASS_DESCRIPTOR->$methodName(Ljava/lang/String;)Ljava/lang/String;
+                        move-result-object v$reg
+                    """
+                )
+            }
         }
     }
 }
